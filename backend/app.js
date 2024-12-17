@@ -1,42 +1,37 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const { notFound, errorHandler } = require('./middleware/errorMiddleware');
-const path = require('path');
-const upload = require('./config/multerConfig');
-const http = require('http');
-
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import { join } from 'path';
+import { createServer } from 'http';
+import {connectDB} from './config/db.js';
+import { errorHandler } from './middleware/errorMiddleware.js';
+import {upload} from './config/multerConfig.js';
 
 // Importing routes
-const userRoutes = require('./routes/users');
-const adminRoutes = require('./routes/admin');
-const authRoutes = require('./routes/auth');
-const contactRoutes = require('./routes/contact');
-const storeRoutes = require('./routes/storeRoutes');
-const couponRoutes = require('./routes/couponRoutes');
-const categoryRoutes = require('./routes/categoryRoutes');
+import userRoutes from './routes/users.js';
+import adminRoutes from './routes/admin.js';
+import authRoutes from './routes/auth.js';
+import contactRoutes from './routes/contact.js';
+import storeRoutes from './routes/storeRoutes.js';
+import couponRoutes from './routes/couponRoutes.js';
+import categoryRoutes from './routes/categoryRoutes.js';
 
 // Connect to the database
 connectDB();
 
 const app = express();
 
-// Configure CORS to allow requests from the frontend
 const corsOptions = {
-  // origin: 'https://coupenworth-frontend.vercel.app', // The domain of your frontend
-  origin: 'http://localhost:3000', // The domain of your frontend
-  methods: 'GET, POST,DELETE,UPDATE,PUT', // Add other methods if needed
-  allowedHeaders: 'Content-Type, Authorization', // Customize as needed
+  origin: 'http://localhost:3000',
+  methods: 'GET, POST, DELETE, UPDATE, PUT',
+  allowedHeaders: 'Content-Type, Authorization',
 };
 
-app.use(cors(corsOptions)); // Enable CORS with the specified options
-
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files for uploads
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
 
 // Define API routes
 app.use('/api/users', userRoutes);
@@ -47,7 +42,6 @@ app.use('/api', storeRoutes);
 app.use('/api', couponRoutes);
 app.use('/api', categoryRoutes);
 
-// File upload endpoint
 app.post('/api/upload', upload.single('file'), (req, res) => {
   try {
     res.send('File uploaded successfully');
@@ -56,24 +50,14 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   }
 });
 
-// Middleware for handling 404 errors and general error handling
-app.use(notFound);
+// Middleware for handling errors
 app.use(errorHandler);
 
-// Serve the frontend app for non-API routes
-// app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
-// });
-
-// At the end of your routes in app.js
 app.get('/', (req, res) => {
-  res.status(200).send('Welcome to CouponWorth Backend');
+  res.send('Welcome to the server');
 });
 
-// Create an HTTP server instance
-const server = http.createServer(app);
+const server = createServer(app);
+const PORT = 5000;
 
-// Start the server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));

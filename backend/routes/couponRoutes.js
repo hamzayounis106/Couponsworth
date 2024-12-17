@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import * as CouponsController from '../controllers/CouponsController.js';
+
 const router = express.Router();
-const CouponsController = require('../controllers/CouponsController');
 
 // CREATE - Add a new coupon
 router.post('/coupons', CouponsController.createCoupon);
@@ -20,4 +21,4 @@ router.delete('/coupons/:id', CouponsController.deleteCoupon);
 // FILTER - Filter coupons by store, category, or status
 router.get('/coupons/filter', CouponsController.filterCoupons);
 
-module.exports = router;
+export default router;

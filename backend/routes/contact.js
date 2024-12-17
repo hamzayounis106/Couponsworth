@@ -1,10 +1,13 @@
-const express = require('express');
+import express from 'express';
+import { submitContactForm, getMessages } from '../controllers/contactController.js';
+import { protect, admin } from '../middleware/auth.js';
+
 const router = express.Router();
-const { submitContactForm,getMessages } = require('../controllers/contactController');
-const { protect, admin } = require('../middleware/auth');
 
 // POST /api/contact
 router.post('/', submitContactForm);
+
+// GET /api/contact - protected and admin-only route for fetching messages
 router.get('/', protect, admin, getMessages);
 
-module.exports = router;
+export default router;

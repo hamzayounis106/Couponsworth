@@ -1,6 +1,4 @@
-// C:\Users\hasnain haider shah\Desktop\learn1\backend\middleware\validateObjectId.js
-
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const validateObjectIdMiddleware = (req, res, next) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -9,4 +7,4 @@ const validateObjectIdMiddleware = (req, res, next) => {
     next();
 };
 
-module.exports = validateObjectIdMiddleware;
+export default validateObjectIdMiddleware;

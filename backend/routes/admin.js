@@ -1,13 +1,10 @@
-// backend/routes/admin.js
-const express = require('express');
+import express from 'express';
+import { getAllUsers, promoteToAdmin, manageUsers } from '../controllers/adminController.js';
+
 const router = express.Router();
 
-// Import controllers
-const adminController = require('../controllers/adminController');
+router.get('/users', getAllUsers);
+router.put('/users/:userId/promote', promoteToAdmin);
+router.get('/manage-users', manageUsers);
 
-// Define routes
-router.get('/users', adminController.getAllUsers);
-router.put('/users/:userId/promote', adminController.promoteToAdmin);
-router.get('/manage-users', adminController.manageUsers);
-
-module.exports = router;
+export default router;

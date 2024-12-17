@@ -1,8 +1,8 @@
-// C:\Users\hasnain haider shah\OneDrive\Desktop\learn1\backend\controllers\authController.js
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-const sendEmail = require('../utils/sendEmail');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+
+import User  from'../models/User.js';
+import sendEmail  from'../utils/sendEmail.js';
 
 // Register user and send OTP for email verification
 const register = async (req, res) => {
@@ -219,11 +219,13 @@ const resetPassword = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     register,
     verifyOtp,
     login,
     forgotPassword,
     refreshToken,
     resetPassword,
+    
 };
+

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');  
+import mongoose from 'mongoose';
 
 const CouponSchema = new mongoose.Schema({
   code: { type: String, required: true },
@@ -11,4 +11,4 @@ const CouponSchema = new mongoose.Schema({
   status: { type: String, enum: ['Active', 'Inactive'], default: 'Active' },
 });
 
-module.exports = mongoose.model('Coupon', CouponSchema);
+export default mongoose.model('Coupon', CouponSchema);

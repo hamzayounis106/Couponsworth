@@ -1,6 +1,5 @@
 // backend/controllers/adminController.js
-const User = require('../models/User');
-
+import User from '../models/User.js';
 // Controller function to get all users
 const getAllUsers = async (req, res) => {
     try {
@@ -34,7 +33,7 @@ const manageUsers = async (req, res) => {
     // Logic to manage users (e.g., listing, updating user roles, etc.)
 };
 
-module.exports = {
+export {
     getAllUsers,
     promoteToAdmin,
     manageUsers

@@ -1,6 +1,5 @@
 // controllers/contactController.js
-const ContactMessage = require('../models/ContactMessage');
-
+import ContactMessage from '../models/ContactMessage.js';
 const submitContactForm = async (req, res) => {
     const { name, email, message } = req.body;
 
@@ -31,7 +30,7 @@ const getMessages = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     submitContactForm,
     getMessages
 };

@@ -1,7 +1,5 @@
-// C:\Users\hasnain haider shah\Desktop\learn1\backend\models\Admin.js
-
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 const adminSchema = new mongoose.Schema({
     username: {
@@ -38,4 +36,4 @@ adminSchema.methods.isValidPassword = async function(password) {
 
 const Admin = mongoose.model('Admin', adminSchema);
 
-module.exports = Admin;
+export default Admin;

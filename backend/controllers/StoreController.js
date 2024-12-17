@@ -1,5 +1,4 @@
-const Store = require("../models/StoreModel");
-
+import Store from "../models/StoreModel.js";
 // Retrieve a store by name and calculate dynamic fields
 const getStoreByName = async (req, res) => {
   try {
@@ -42,32 +41,13 @@ const createStore = async (req, res) => {
       url,
       description,
       category,
-      categoryIconUrl, // Accept categoryIconUrl from request body
-      tags,
       status,
-      rating,
-      reviewCount,
-      verified,
-      region,
-      popularityScore,
-      contactInfo,
-      totalCoupons,
-      activeCoupons,
-      bestDiscount,
-      totalDeals,
-      history,
-      promotionalInfo,
+      additionalDetails,
       pointsToKnow,
       freeShipping,
+      isTrending,
       memberDiscount,
       militaryDiscount,
-      faq,
-      alternatives,
-      popularStores,
-      coupons,
-      featuredCoupons,
-      recommendedCoupons,
-      isTrending,
     } = req.body;
 
     if (!name || !url) {
@@ -87,32 +67,13 @@ const createStore = async (req, res) => {
       url,
       description,
       category,
-      categoryIconUrl, // Add it to the new store object
-      tags,
       status,
-      rating,
-      reviewCount,
-      verified,
-      region,
-      popularityScore,
-      contactInfo,
-      totalCoupons,
-      activeCoupons,
-      bestDiscount,
-      totalDeals,
-      history,
-      promotionalInfo,
+      additionalDetails,
       pointsToKnow,
       freeShipping,
+      isTrending,
       memberDiscount,
       militaryDiscount,
-      faq,
-      alternatives,
-      popularStores,
-      coupons,
-      featuredCoupons,
-      recommendedCoupons,
-      isTrending,
     });
 
     await newStore.save();
@@ -123,6 +84,7 @@ const createStore = async (req, res) => {
     res.status(500).json({ message: "Error creating store", error });
   }
 };
+
 
 // Retrieve all stores with sorting and calculate dynamic fields
 const getStores = async (req, res) => {
@@ -341,7 +303,7 @@ const searchStores = async (req, res) => {
 
 
 
-module.exports = {
+export  {
   createStore,
   getStores,
   getStoreByName,

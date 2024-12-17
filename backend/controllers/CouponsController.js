@@ -1,5 +1,4 @@
-const Coupon = require('../models/CouponsModel');
-
+import Coupon from '../models/CouponsModel.js';
 // CREATE - Add a new coupon
 const createCoupon = async (req, res) => {
   try {
@@ -110,7 +109,7 @@ const filterCoupons = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   createCoupon,
   getCoupons,
   getCouponById,

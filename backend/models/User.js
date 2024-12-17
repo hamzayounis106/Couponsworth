@@ -1,5 +1,4 @@
-// C:\Users\hasnain haider shah\OneDrive\Desktop\learn1\backend\models\User.js
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -35,4 +34,4 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

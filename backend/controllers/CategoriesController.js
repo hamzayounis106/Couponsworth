@@ -1,5 +1,4 @@
-const Category = require('../models/CategoryModel');
-
+import Category from '../models/CategoryModel.js';
 // CREATE - Add a new category
 const createCategory = async (req, res) => {
   try {
@@ -94,7 +93,7 @@ const filterCategories = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   createCategory,
   getCategories,
   getCategoryById,

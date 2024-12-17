@@ -1,4 +1,4 @@
-const User = require('../models/User');
+import User from '../models/User.js';
 
 const getAllUsers = async (req, res) => {
   try {
@@ -50,20 +50,18 @@ const deleteUserById = async (req, res) => {
 
 const getProfile = async (req, res) => {
   try {
-      // console.log('Request user object:', req.user);
-      const user = await User.findById(req.user.id).select('-password');
-      if (!user) {
-          // console.log('User not found for req.user.id:', req.user.id);
-          return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.json(user);
   } catch (error) {
-      console.error('Server error:', error);
-      res.status(500).json({ message: 'Server error' });
+    console.error('Server error:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
-module.exports = {
+export {
   getAllUsers,
   getUserById,
   updateUserById,

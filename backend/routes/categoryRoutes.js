@@ -1,23 +1,24 @@
-const express = require('express');
+import express from 'express';
+import  { createCategory, deleteCategory, filterCategories, getCategories, getCategoryById, updateCategory } from '../controllers/CategoriesController.js';
+
 const router = express.Router();
-const CategoriesController = require('../controllers/CategoriesController');
 
 // CREATE - Add a new category
-router.post('/categories', CategoriesController.createCategory);
+router.post('/categories', createCategory);
 
 // READ - Get all categories (with optional filters)
-router.get('/categories', CategoriesController.getCategories);
+router.get('/categories', getCategories);
 
 // READ - Get category by ID
-router.get('/categories/:id', CategoriesController.getCategoryById);
+router.get('/categories/:id', getCategoryById);
 
 // UPDATE - Update category by ID
-router.put('/categories/:id', CategoriesController.updateCategory);
+router.put('/categories/:id', updateCategory);
 
 // DELETE - Delete category by ID
-router.delete('/categories/:id', CategoriesController.deleteCategory);
+router.delete('/categories/:id', deleteCategory);
 
 // FILTER - Filter categories by status or other criteria
-router.get('/categories/filter', CategoriesController.filterCategories);
+router.get('/categories/filter', filterCategories);
 
-module.exports = router;
+export default router;

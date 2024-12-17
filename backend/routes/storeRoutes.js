@@ -1,9 +1,10 @@
-const express = require('express');
+import express from 'express';
+import * as StoreController from '../controllers/StoreController.js';
+
 const router = express.Router();
-const StoreController = require('../controllers/StoreController');
 
 // CREATE - Add a new store
-router.post('/stores', StoreController.createStore);
+router.post('/add-store', StoreController.createStore);
 
 // READ - Get all stores
 router.get('/stores', StoreController.getStores);
@@ -19,7 +20,8 @@ router.delete('/stores/id/:id', StoreController.deleteStore);
 
 // ADD COUPONS - Add coupons to a store
 router.post('/stores/:id/coupons', StoreController.addCoupons);
+
+// SEARCH - Search for stores
 router.get('/search', StoreController.searchStores);
 
-
-module.exports = router;
+export default router;

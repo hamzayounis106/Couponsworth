@@ -1,11 +1,11 @@
-const express = require('express');
-const {
+import express from 'express';
+import {
   getOverviewData,
   getRevenueData,
   getTotalRevenue,
   getTransactionData,
   getOrderFulfillmentRatio
-} = require('../controllers/analyticsController');
+} from '../controllers/analyticsController';
 
 const router = express.Router();
 
@@ -15,4 +15,4 @@ router.get('/total-revenue/:period', getTotalRevenue); // period can be day, wee
 router.get('/transactions/:period', getTransactionData); // period can be day, week, month, year
 router.get('/fulfillment-ratio', getOrderFulfillmentRatio);
 
-module.exports = router;
+export default router;
