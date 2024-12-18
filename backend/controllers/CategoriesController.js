@@ -66,6 +66,8 @@ const updateCategory = async (req, res) => {
 };
 
 // DELETE - Delete category by ID
+// DELETE - Delete category by ID
+
 const deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
