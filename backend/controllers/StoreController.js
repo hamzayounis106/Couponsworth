@@ -40,7 +40,7 @@ const createStore = async (req, res) => {
       logo,
       url,
       description,
-      category,
+      couponsIds,
       status,
       additionalDetails,
       pointsToKnow,
@@ -54,19 +54,13 @@ const createStore = async (req, res) => {
       return res.status(400).json({ message: "Name and URL are required" });
     }
 
-    const existingStore = await Store.findOne({ name });
-    if (existingStore) {
-      return res
-        .status(400)
-        .json({ message: "Store with this name already exists" });
-    }
-
+    
     const newStore = new Store({
       name,
       logo,
       url,
       description,
-      category,
+      couponsIds,
       status,
       additionalDetails,
       pointsToKnow,
@@ -81,7 +75,12 @@ const createStore = async (req, res) => {
       .status(201)
       .json({ message: "Store created successfully", store: newStore });
   } catch (error) {
-    res.status(500).json({ message: "Error creating store", error });
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Store already exists with this name" });
+    }
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 

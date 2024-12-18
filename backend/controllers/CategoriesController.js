@@ -2,18 +2,23 @@ import Category from '../models/CategoryModel.js';
 // CREATE - Add a new category
 const createCategory = async (req, res) => {
   try {
-    const { name, description, status } = req.body;
+    const { name, description, status,storeIds } = req.body;
 
     const newCategory = new Category({
       name,
       description,
-      status,
+      status,storeIds
     });
 
     await newCategory.save();
     res.status(201).json({ message: 'Category created successfully', category: newCategory });
   } catch (error) {
-    res.status(500).json({ message: 'Error creating category', error });
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Category already exists" });
+    }
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
