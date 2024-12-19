@@ -62,7 +62,6 @@
 
 // module.exports = mongoose.model("Store", StoreSchema);
 
-
 import mongoose from "mongoose";
 
 const StoreSchema = new mongoose.Schema({
@@ -70,7 +69,7 @@ const StoreSchema = new mongoose.Schema({
   logo: { type: String },
   url: { type: String, required: true },
   description: { type: String },
-  category: [{ type: String }],
+  couponsIds: [{ type: mongoose.Schema.Types.ObjectId, ref: "Coupon" }],
   status: { type: String, enum: ["Active", "Inactive"], default: "Active" },
   additionalDetails: { type: String },
   pointsToKnow: [{ type: String }],

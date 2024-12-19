@@ -4,7 +4,7 @@ import * as StoreController from '../controllers/StoreController.js';
 const router = express.Router();
 
 // CREATE - Add a new store
-router.post('/add-store', StoreController.createStore);
+router.post('/create-store', StoreController.createStore);
 
 // READ - Get all stores
 router.get('/stores', StoreController.getStores);
@@ -13,7 +13,7 @@ router.get('/stores', StoreController.getStores);
 router.get('/stores/id/:id', StoreController.getStoreById);
 
 // UPDATE - Update a store
-router.put('/stores/id/:id', StoreController.updateStore);
+router.post('/update-store/id/:id', StoreController.updateStore);
 
 // DELETE - Delete a store
 router.delete('/stores/id/:id', StoreController.deleteStore);
