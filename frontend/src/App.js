@@ -16,7 +16,7 @@ import Home from './components/common/Home';
 import ContactUs from './components/common/ContactUs';
 import About from './components/common/About';
 import Login from './components/auth/Login';
-import Register from './components/auth/Register';
+// import Register from './components/auth/Register';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
 import UserProfile from './components/user/UserProfile';
@@ -77,7 +77,7 @@ const App = () => {
           <Route path='/contact' element={<ContactUs />} />
           <Route path='/about' element={<About />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
+          {/* <Route path='/register' element={<Register />} /> */}
           <Route path='/forgot-password' element={<ForgotPassword />} />
           <Route path='/reset-password/:token' element={<ResetPassword />} />
           <Route path='/user/profile' element={<UserProfile />} />
