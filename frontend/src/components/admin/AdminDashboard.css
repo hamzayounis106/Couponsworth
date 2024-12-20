@@ -20,12 +20,13 @@
 .admin-dashboard-buttons {
   display: flex;
   justify-content: center;
+
   flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .admin-dashboard-buttons button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   margin: 10px;
@@ -160,7 +161,7 @@
 }
 
 .admin-orders-table th {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
 }
 
@@ -181,7 +182,7 @@
 }
 
 .admin-add-product-form button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 10px;
   border: none;
@@ -209,12 +210,12 @@
 }
 
 .admin-edit-product-table th {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
 }
 
 .admin-edit-product-actions button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 5px 10px;
   margin: 5px;
@@ -243,12 +244,12 @@
 }
 
 .admin-users-table th {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
 }
 
 .admin-users-actions button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 5px 10px;
   margin: 5px;
@@ -301,7 +302,7 @@
 }
 
 .admin-coupon-form button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 10px;
   border: none;
@@ -345,7 +346,7 @@
 }
 
 .admin-messages-list li button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -373,9 +374,7 @@
   transition: background-color 0.3s ease;
 }
 
-.admin-categories-list
-
- li:hover {
+.admin-categories-list li:hover {
   background-color: #f1f1f1;
 }
 
@@ -391,7 +390,7 @@
 }
 
 .admin-categories-list li button {
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   padding: 5px 10px;
   border: none;
@@ -421,7 +420,7 @@
 }
 
 .admin-pagination button.active {
-  color: #007BFF;
+  color: #007bff;
   font-weight: bold;
 }
 

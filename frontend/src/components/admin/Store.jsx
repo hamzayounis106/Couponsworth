@@ -1,22 +1,59 @@
-import { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Fragment } from 'react';
+import { Link, Routes, Route } from 'react-router-dom';
 import ProductDetails from './ProductDetails';
 
+import {
+  FiFolderPlus,
+  FiMail,
+  FiShoppingBag,
+  FiTag,
+  FiUsers,
+} from 'react-icons/fi';
+import Coupons from './Coupons';
+
 const Store = () => {
+  const navItems = [
+    {
+      id: 'users',
+      label: 'Manage Users',
+      icon: <FiUsers />,
+      path: '/admin/manage-users',
+    },
+    {
+      id: 'stores',
+      label: 'Manage Stores',
+      icon: <FiShoppingBag />,
+      path: '/admin/store',
+    },
+    {
+      id: 'coupons',
+      label: 'Manage Coupons',
+      icon: <FiTag />,
+      path: '/admin/coupons',
+    },
+    {
+      id: 'categories',
+      label: 'Manage Categories',
+      icon: <FiFolderPlus />,
+      path: '/admin/categories',
+    },
+    {
+      id: 'messages',
+      label: 'Manage Messages',
+      icon: <FiMail />,
+      path: '/admin/messages',
+    },
+  ];
+
   return (
     <Fragment>
+      {/* Add Store Button */}
       <div className='p-6'>
-        <h1 className='text-4xl font-bold text-center mb-6'>Admin Store</h1>
-
-        <div className='flex justify-center space-x-4 mb-6'>
-          <Link
-            to={'/admin/store/addstore'}
-            className='bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition'
-          >
-            Add Store
-          </Link>
-        </div>
+        <h1 className='text-4xl font-bold text-center mb-6'>Store Section</h1>
+        <div className='flex justify-center space-x-4 mb-6'></div>
       </div>
+
+      {/* Product Details Section */}
       <ProductDetails />
     </Fragment>
   );

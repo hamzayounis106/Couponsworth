@@ -1,61 +1,83 @@
-import React, { useState } from 'react';
-import ManageUsers from './ManageUsers';
-import ManageStores from './ManageStores';
-// import ManageCoupons from "./ManageCoupons";
+import React from 'react';
+import { Routes, Route, Link } from 'react-router-dom';
+import Messages from './Messages';
 import CategoryManagement from './CategoryManagement';
-import Messages from './Messages'; // Import Messages component
-import {
-  FiUsers,
-  FiShoppingBag,
-  FiFolderPlus,
-  FiMail,
-  FiTag,
-} from 'react-icons/fi'; // Import icons
-import './AdminDashboard.css';
-import { Link } from 'react-router-dom';
+import ManageStores from './ManageStores';
+import ManageUsers from './ManageUsers';
+import Store from './Store';
+import Coupons from './Coupons';
+import AddStore from './AddStore';
+import DeletStore from './DeletStore';
+import Addcoupons from './Addcoupons';
 
 const AdminDashboard = () => {
-  const [view, setView] = useState('users');
-
   return (
-    <div className='admin-dashboard'>
-      <div className='admin-dashboard-header'>
-        <h1>Admin Dashboard</h1>
-      </div>
-      <div className='admin-dashboard-buttons'>
-        <button onClick={() => setView('users')}>
-          <FiUsers /> Manage Users
-        </button>
-        <Link to={'/admin/store'}>
-          <button
-            className='bg-blue-800 px-4 py-2 rounded'
-            onClick={() => setView('stores')}
-          >
-            <FiShoppingBag /> Manage Stores
-          </button>
-        </Link>
-        <Link to={'/admin/coupons'}>
-          <button
-            className='bg-blue-800 px-4 py-2 rounded'
-            onClick={() => setView('stores')}
-          >
-            <FiShoppingBag /> Manage coupons
-          </button>
-        </Link>
-        <button onClick={() => setView('categories')}>
-          <FiFolderPlus /> Manage Categories
-        </button>
-        <button onClick={() => setView('messages')}>
-          <FiMail /> Manage Messages
-        </button>
-      </div>
-      <div className='admin-dashboard-content'>
-        {view === 'users' && <ManageUsers />}
-        {view === 'stores' && <ManageStores />}
-        {/* {view === "coupons" && <ManageCoupons />} */}
-        {view === 'categories' && <CategoryManagement />}
-        {view === 'messages' && <Messages />}
-      </div>
+    <div className='flex h-screen'>
+      {/* Sidebar */}
+      <aside className='bg-purple-800 w-64 text-white p-4 shadow-lg flex-shrink-0'>
+        <h1 className='text-xl font-bold mb-4 text-center text-white'>
+          Admin Dashboard
+        </h1>
+        <nav>
+          <ul className='space-y-2'>
+            {/* Sidebar menu links */}
+            <li>
+              <Link
+                to='/admin/manage-users'
+                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+              >
+                <span>Manage Users</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/admin/store'
+                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+              >
+                <span>Manage Stores</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/admin/categories'
+                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+              >
+                <span>Manage Categories</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/admin/messages'
+                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+              >
+                <span>Manage Messages</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to='/admin/coupons'
+                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+              >
+                <span>Manage Coupons</span>
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      {/* Main Content */}
+      <main className='flex-1 bg-purple-100 p-4 overflow-y-auto'>
+        <Routes>
+          <Route path='/manage-users' element={<ManageUsers />} />
+          <Route path='/store' element={<ManageStores />} />
+          <Route path='/categories' element={<CategoryManagement />} />
+          <Route path='/messages' element={<Messages />} />
+          <Route path='/coupons' element={<Coupons />} />
+          <Route path='/store/add-store' element={<AddStore />} />
+          <Route path='/store/deletstore' element={<DeletStore />} />
+          <Route path='/coupons/addcoupons' element={<Addcoupons />} />
+        </Routes>
+      </main>
     </div>
   );
 };
