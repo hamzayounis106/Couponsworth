@@ -1,3 +1,5 @@
+import { v2 } from "cloudinary";
+import cloudinary from "../config/cloudinaryConfig.js";
 import Store from "../models/StoreModel.js";
 // Retrieve a store by name and calculate dynamic fields
 const getStoreByName = async (req, res) => {
@@ -33,11 +35,11 @@ const getStoreByName = async (req, res) => {
 };
 
 // controllers/StoreController.js
+
 const createStore = async (req, res) => {
   try {
     const {
       name,
-      logo,
       url,
       description,
       couponsIds,
@@ -49,15 +51,34 @@ const createStore = async (req, res) => {
       memberDiscount,
       militaryDiscount,
     } = req.body;
-
+    const file = req.files?.image;
+    console.log("file: ", file);
+    console.log("name", name);
+    console.log("couponsIds", couponsIds);
+    console.log("memberDiscount", memberDiscount);
     if (!name || !url) {
       return res.status(400).json({ message: "Name and URL are required" });
     }
 
-    
+    const fileBase64 = `data:${file.mimetype};base64,${file.data.toString(
+      "base64"
+    )}`;
+
+    let logoUrl = null;
+
+    try {
+      const result = await v2.uploader.upload(fileBase64, {
+        folder: "User Profiles",
+        resource_type: "auto",
+      });
+      logoUrl = result.secure_url;
+    } catch (error) {
+      return res.status(500).json({ message: "Error uploading image", error });
+    }
+
     const newStore = new Store({
       name,
-      logo,
+      logo: logoUrl,
       url,
       description,
       couponsIds,
@@ -71,55 +92,69 @@ const createStore = async (req, res) => {
     });
 
     await newStore.save();
+
     res
       .status(201)
       .json({ message: "Store created successfully", store: newStore });
   } catch (error) {
     if (error.code === 11000) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Store already exists with this name" });
+      return res.status(400).json({
+        success: false,
+        message: "Store already exists with this name",
+      });
     }
     return res.status(500).json({ success: false, message: error.message });
   }
 };
 
-
 // Retrieve all stores with sorting and calculate dynamic fields
+// const getStores = async (req, res) => {
+//   try {
+//     const { sortBy } = req.query;
+//     console.log("sort By: ", sortBy);
+//     let sortOrder = {};
+//     if (sortBy === "name") sortOrder = { name: 1 };
+//     else if (sortBy === "category") sortOrder = { category: 1 };
+//     else if (sortBy === "status") sortOrder = { status: 1 };
+//     else sortOrder = { name: 1 };
+
+//     const stores = await Store.find().sort(sortOrder);
+//     console.log(stores);
+//     const enrichedStores = stores.map((store) => {
+//       const totalCoupons = store.coupons.length;
+//       const activeCoupons = store.coupons.filter(
+//         (coupon) =>
+//           !coupon.expiryDate || new Date(coupon.expiryDate) > new Date()
+//       ).length;
+//       const bestDiscount = Math.max(
+//         ...store.coupons.map((coupon) => coupon.discount || 0),
+//         0
+//       );
+
+//       return {
+//         ...store.toObject(),
+//         totalCoupons,
+//         activeCoupons,
+//         bestDiscount,
+//       };
+//     });
+
+//     res.status(200).json({ stores: enrichedStores });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching stores", error });
+//   }
+// };
+
 const getStores = async (req, res) => {
   try {
-    const { sortBy } = req.query;
-
-    let sortOrder = {};
-    if (sortBy === "name") sortOrder = { name: 1 };
-    else if (sortBy === "category") sortOrder = { category: 1 };
-    else if (sortBy === "status") sortOrder = { status: 1 };
-    else sortOrder = { name: 1 };
-
-    const stores = await Store.find().sort(sortOrder);
-
-    const enrichedStores = stores.map((store) => {
-      const totalCoupons = store.coupons.length;
-      const activeCoupons = store.coupons.filter(
-        (coupon) =>
-          !coupon.expiryDate || new Date(coupon.expiryDate) > new Date()
-      ).length;
-      const bestDiscount = Math.max(
-        ...store.coupons.map((coupon) => coupon.discount || 0),
-        0
-      );
-
-      return {
-        ...store.toObject(),
-        totalCoupons,
-        activeCoupons,
-        bestDiscount,
-      };
-    });
-
-    res.status(200).json({ stores: enrichedStores });
+    const stores = await Store.find();
+    console.log(stores);
+    res.status(200).json({ success: true, stores: stores });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching stores", error });
+    console.log(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching stores", error });
   }
 };
 
@@ -128,11 +163,17 @@ const getStoreById = async (req, res) => {
   try {
     const store = await Store.findById(req.params.id);
     if (!store) {
-      return res.status(404).json({ message: "Store not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Store not found" });
     }
-    res.status(200).json({ store });
+    res.status(200).json({ success: true, store: store });
   } catch (error) {
-    res.status(500).json({ message: "Error fetching store", error });
+    res.status(500).json({
+      success: false,
+      message: "Error fetching store",
+      error: error.message,
+    });
   }
 };
 
@@ -299,10 +340,7 @@ const searchStores = async (req, res) => {
   }
 };
 
-
-
-
-export  {
+export {
   createStore,
   getStores,
   getStoreByName,

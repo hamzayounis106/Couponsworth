@@ -1,17 +1,21 @@
-import Category from '../models/CategoryModel.js';
+import Category from "../models/CategoryModel.js";
 // CREATE - Add a new category
 const createCategory = async (req, res) => {
   try {
-    const { name, description, status,storeIds } = req.body;
+    const { name, description, status, storeIds } = req.body;
 
     const newCategory = new Category({
       name,
       description,
-      status,storeIds
+      status,
+      storeIds,
     });
 
     await newCategory.save();
-    res.status(201).json({ message: 'Category created successfully', category: newCategory });
+    res.status(201).json({
+      message: "Category created successfully",
+      category: newCategory,
+    });
   } catch (error) {
     if (error.code === 11000) {
       return res
@@ -23,30 +27,39 @@ const createCategory = async (req, res) => {
 };
 
 // READ - Get all categories with optional filters
+// const getCategories = async (req, res) => {
+//   try {
+//     const { status } = req.query;
+
+//     let query = {};
+//     if (status) query.status = status;
+
+//     const categories = await Category.find(query);
+//     res.status(200).json({ categories });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching categories", error });
+//   }
+// };
 const getCategories = async (req, res) => {
   try {
-    const { status } = req.query;
-
-    let query = {};
-    if (status) query.status = status;
-
-    const categories = await Category.find(query);
-    res.status(200).json({ categories });
+    const categories = await Category.find();
+    res.status(200).json({ success: true, categories: categories });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching categories', error });
+    res
+      .status(500)
+      .json({ success: true, message: "Error fetching categories", error });
   }
 };
-
 // READ - Get a single category by ID
 const getCategoryById = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id);
     if (!category) {
-      return res.status(404).json({ message: 'Category not found' });
+      return res.status(404).json({ success: false, message: "Category not found" });
     }
-    res.status(200).json({ category });
+    res.status(200).json({success: true,  category:category });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching category', error });
+    res.status(500).json({success: false,  message: "Error fetching category", error });
   }
 };
 
@@ -61,12 +74,15 @@ const updateCategory = async (req, res) => {
     );
 
     if (!updatedCategory) {
-      return res.status(404).json({ message: 'Category not found' });
+      return res.status(404).json({ message: "Category not found" });
     }
 
-    res.status(200).json({ message: 'Category updated successfully', category: updatedCategory });
+    res.status(200).json({
+      message: "Category updated successfully",
+      category: updatedCategory,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Error updating category', error });
+    res.status(500).json({ message: "Error updating category", error });
   }
 };
 
@@ -77,11 +93,11 @@ const deleteCategory = async (req, res) => {
   try {
     const category = await Category.findByIdAndDelete(req.params.id);
     if (!category) {
-      return res.status(404).json({ message: 'Category not found' });
+      return res.status(404).json({ message: "Category not found" });
     }
-    res.status(200).json({ message: 'Category deleted successfully' });
+    res.status(200).json({ message: "Category deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: 'Error deleting category', error });
+    res.status(500).json({ message: "Error deleting category", error });
   }
 };
 
@@ -96,7 +112,7 @@ const filterCategories = async (req, res) => {
     const categories = await Category.find(query);
     res.status(200).json({ categories });
   } catch (error) {
-    res.status(500).json({ message: 'Error filtering categories', error });
+    res.status(500).json({ message: "Error filtering categories", error });
   }
 };
 
