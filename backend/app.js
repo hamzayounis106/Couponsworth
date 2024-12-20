@@ -6,7 +6,7 @@ import { createServer } from 'http';
 import {connectDB} from './config/db.js';
 import { errorHandler } from './middleware/errorMiddleware.js';
 import {upload} from './config/multerConfig.js';
-
+import fileUpload from "express-fileupload";
 // Importing routes
 import userRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
@@ -15,6 +15,7 @@ import contactRoutes from './routes/contact.js';
 import storeRoutes from './routes/storeRoutes.js';
 import couponRoutes from './routes/couponRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
+import { v2 } from 'cloudinary';
 
 // Connect to the database
 connectDB();
@@ -30,8 +31,20 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
+app.use(express.json({ limit: "50mb" }));
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+    useTempFiles: false,
+  })
+);
+
 
 // Define API routes
 app.use('/api/users', userRoutes);
@@ -42,13 +55,6 @@ app.use('/api', storeRoutes);
 app.use('/api', couponRoutes);
 app.use('/api', categoryRoutes);
 
-app.post('/api/upload', upload.single('file'), (req, res) => {
-  try {
-    res.send('File uploaded successfully');
-  } catch (err) {
-    res.status(400).send('Error uploading file');
-  }
-});
 
 // Middleware for handling errors
 app.use(errorHandler);

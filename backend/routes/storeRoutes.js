@@ -1,10 +1,10 @@
 import express from 'express';
 import * as StoreController from '../controllers/StoreController.js';
-
+import { upload } from '../config/multerConfig.js';
 const router = express.Router();
 
 // CREATE - Add a new store
-router.post('/create-store', StoreController.createStore);
+router.post('/create-store',StoreController.createStore);
 
 // READ - Get all stores
 router.get('/stores', StoreController.getStores);
