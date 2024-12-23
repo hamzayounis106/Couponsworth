@@ -16,7 +16,7 @@ export default function useAddStore() {
           },
         });
         toast.success("Store added successfully");
-      navigate(`/admin/store/${res.data.store._id}`);
+      navigate(`/store/${res.data.store._id}`);
         console.log(res);
         console.log(res.data);
         return res.data; // Returning the response data on success

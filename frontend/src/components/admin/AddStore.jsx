@@ -324,8 +324,7 @@ const AddStore = () => {
             <button
               type="submit"
               className="w-full py-3 mt-4 text-white transition bg-purple-600 rounded-lg shadow-md hover:bg-purple-700"
-            >
-              Submit
+            > {addingStoreLoading ? "Loading......" : "Submit"}
             </button>
           </div>
         </form>

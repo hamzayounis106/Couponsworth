@@ -5,8 +5,8 @@
   }
   
   .manage-stores button {
-    background-color: #007bff;
-    color: white;
+    /* background-color: #007bff;
+    color: white; */
     border: none;
     padding: 10px 20px;
     margin: 10px 0;
@@ -92,7 +92,7 @@
   }
   
   .store-form button {
-    background-color: #007bff;
+    /* background-color: #007bff; */
     color: white;
     padding: 10px;
     border: none;
