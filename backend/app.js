@@ -38,12 +38,7 @@ v2.config({
 });
 
 app.use(express.json({ limit: "50mb" }));
-app.use(
-  fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-    useTempFiles: false,
-  })
-);
+app.use(fileUpload());
 
 
 // Define API routes
