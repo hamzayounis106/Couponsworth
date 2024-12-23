@@ -1,6 +1,7 @@
 import { v2 } from "cloudinary";
 import cloudinary from "../config/cloudinaryConfig.js";
 import Store from "../models/StoreModel.js";
+import mongoose from "mongoose";
 // Retrieve a store by name and calculate dynamic fields
 const getStoreByName = async (req, res) => {
   try {
@@ -39,10 +40,10 @@ const getStoreByName = async (req, res) => {
 const createStore = async (req, res) => {
   try {
     const {
-      name,
-      url,
+      storeName,
+      websiteUrl,
       description,
-      couponsIds,
+      selectedCoupons,
       status,
       additionalDetails,
       pointsToKnow,
@@ -51,19 +52,20 @@ const createStore = async (req, res) => {
       memberDiscount,
       militaryDiscount,
     } = req.body;
-    const file = req.files?.image;
-    console.log("file: ", file);
-    console.log("name", name);
-    console.log("couponsIds", couponsIds);
-    console.log("memberDiscount", memberDiscount);
-    if (!name || !url) {
+    const couponIds = req.body.selectedCoupons.split(',').map(id => new mongoose.Types.ObjectId(id.trim()));
+console.log('couponIds:',couponIds)
+    const file = req.files?.logo;
+    if (!file) {
+      console.log("Image is required")
+      return res.status(400).json({ message: "Image is required" });
+    }
+
+    if (!storeName || !websiteUrl) {
+      console.log("Name and URL are required")
       return res.status(400).json({ message: "Name and URL are required" });
     }
 
-    const fileBase64 = `data:${file.mimetype};base64,${file.data.toString(
-      "base64"
-    )}`;
-
+    const fileBase64 = `data:${file?.mimetype};base64,${file?.data?.toString("base64")}`;
     let logoUrl = null;
 
     try {
@@ -72,16 +74,17 @@ const createStore = async (req, res) => {
         resource_type: "auto",
       });
       logoUrl = result.secure_url;
-    } catch (error) {
-      return res.status(500).json({ message: "Error uploading image", error });
+    } catch ( error) {
+      console.log('Error uploading image',error)
+      return res.status(500).json({ message: "Error uploading image", error: error.message });
     }
 
     const newStore = new Store({
-      name,
+      name: storeName,
       logo: logoUrl,
-      url,
+      url: websiteUrl,
       description,
-      couponsIds,
+      couponsIds: couponIds,
       status,
       additionalDetails,
       pointsToKnow,
@@ -93,10 +96,9 @@ const createStore = async (req, res) => {
 
     await newStore.save();
 
-    res
-      .status(201)
-      .json({ message: "Store created successfully", store: newStore });
+    return res.status(201).json({ message: "Store created successfully", store: newStore });
   } catch (error) {
+    console.log('Error uploading Store',error)
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
@@ -106,6 +108,7 @@ const createStore = async (req, res) => {
     return res.status(500).json({ success: false, message: error.message });
   }
 };
+
 
 // Retrieve all stores with sorting and calculate dynamic fields
 // const getStores = async (req, res) => {

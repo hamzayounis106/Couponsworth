@@ -74,14 +74,7 @@ const getCouponById = async (req, res) => {
 // UPDATE - Update coupon details by ID
 const updateCoupon = async (req, res) => {
   try {
-    const {
-      code,
-      description,
-      expiryDate,
-      discount,
-      terms,
-      status,
-    } = req.body;
+    const { code, description, expiryDate, discount, terms, status } = req.body;
 
     // Ensure the fields being updated are part of the schema
     const updatedCoupon = await Coupon.findByIdAndUpdate(
@@ -108,7 +101,6 @@ const updateCoupon = async (req, res) => {
     res.status(500).json({ message: "Error updating coupon", error });
   }
 };
-
 
 // DELETE - Delete coupon by ID
 const deleteCoupon = async (req, res) => {
