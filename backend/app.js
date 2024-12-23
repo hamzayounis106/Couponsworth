@@ -23,7 +23,7 @@ connectDB();
 const app = express();
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: true,
   methods: 'GET, POST, DELETE, UPDATE, PUT',
   allowedHeaders: 'Content-Type, Authorization',
 };
