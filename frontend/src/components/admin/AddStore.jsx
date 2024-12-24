@@ -26,7 +26,7 @@ const AddStore = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
-  
+
     if (type === "checkbox") {
       // For boolean fields, set true or false based on whether the checkbox is checked
       setFormData({
@@ -47,7 +47,6 @@ const AddStore = () => {
       });
     }
   };
-  
 
   const handleCouponSearch = (e) => {
     setSearchQuery(e.target.value);
@@ -120,26 +119,25 @@ const AddStore = () => {
     // Add the store and handle success/error callbacks directly
     addStore(storeData, {
       onSuccess: () => {
+        console.log("storeData",storeData);
         console.log("Store details submitted successfully!");
         // You can reset or update UI here if necessary
       },
       onError: (error) => {
+        console.log("",storeData);
         console.error("Error uploading store:", error);
-      setError(addStoreError.message)
-      }
-      
+        setError(addStoreError.message);
+      },
     });
   };
 
   // Handling loading and success/error state outside of the submit function
   if (addingStoreLoading) {
-    
     console.log("Uploading store...");
   } else if (isAddStoreSuccess) {
     console.log("Store uploaded successfully!");
   } else if (isAddStoreError) {
     console.log("Error uploading store:", addStoreError);
-    
   }
 
   return (
@@ -324,7 +322,9 @@ const AddStore = () => {
             <button
               type="submit"
               className="w-full py-3 mt-4 text-white transition bg-purple-600 rounded-lg shadow-md hover:bg-purple-700"
-            > {addingStoreLoading ? "Loading......" : "Submit"}
+            >
+              {" "}
+              {addingStoreLoading ? "Loading......" : "Submit"}
             </button>
           </div>
         </form>
@@ -332,46 +332,91 @@ const AddStore = () => {
 
       {/* Coupons Modal */}
       {showCouponModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
-          <div className="relative w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="relative w-full max-w-lg p-6 transition-all duration-300 transform scale-95 bg-white rounded-lg shadow-xl hover:scale-100">
             <button
               onClick={() => setShowCouponModal(false)}
-              className="absolute text-gray-500 top-4 right-4 hover:text-gray-700"
+              className="absolute text-gray-600 top-4 right-4 hover:text-gray-800 focus:outline-none"
             >
               &times;
             </button>
-            <h3 className="mb-4 text-xl font-bold text-gray-800">
+            <h3 className="mb-4 text-2xl font-semibold text-gray-800">
               Select Coupons
             </h3>
+
             <input
               type="text"
               placeholder="Search coupons..."
               value={searchQuery}
               onChange={handleCouponSearch}
-              className="w-full p-3 mb-4 border border-gray-300 rounded-lg focus:ring focus:ring-purple-400"
+              className="w-full p-3 mb-4 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-purple-400 focus:outline-none"
             />
-            <div className="flex flex-col justify-center p-3 overflow-y-auto bg-green-700 border border-gray-300 rounded-lg max-h-64">
+
+            <div className="flex flex-col p-3 space-y-3 overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-inner max-h-64">
               {isCouponsFetching ? (
-                <p>Loading coupons...</p>
+                <p className="text-center text-gray-500">Loading coupons...</p>
               ) : filteredCoupons?.length > 0 ? (
                 filteredCoupons.map((coupon) => (
-                  <label key={coupon.code}>
-                    <input
-                      type="checkbox"
-                      checked={formData.selectedCoupons.includes(coupon._id)}
-                      onChange={() => handleCouponSelection(coupon._id)}
-                    />
-                    {coupon.code}
-                  </label>
+                  <div
+                    key={coupon.code}
+                    className="flex flex-col p-3 space-y-2 border-b border-gray-200"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-gray-800">Code:</span>
+                      <span className="text-gray-600">{coupon.code}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-gray-800">
+                        Discount:
+                      </span>
+                      <span className="text-gray-600">{coupon.discount}%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-gray-800">
+                        Expiry Date:
+                      </span>
+                      <span className="text-gray-600">
+                        {new Date(coupon.expiryDate).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-gray-800">
+                        Status:
+                      </span>
+                      <span
+                        className={`text-sm font-semibold ${
+                          coupon.status === "Active"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {coupon.status}
+                      </span>
+                    </div>
+                    <label className="flex items-center w-full p-3 space-x-4 transition-all duration-200 ease-in-out rounded-lg cursor-pointer hover:bg-gray-100">
+                      <input
+                        type="checkbox"
+                        checked={formData.selectedCoupons.includes(coupon._id)}
+                        onChange={() => handleCouponSelection(coupon._id)}
+                        className="w-5 h-5 text-purple-600 border-gray-300 rounded-sm focus:ring-2 focus:ring-purple-400"
+                      />
+                      <span className="text-sm font-medium text-gray-700">
+                        Select this coupon
+                      </span>
+                    </label>
+                  </div>
                 ))
               ) : (
-                <p>No coupons available.</p>
+                <p className="text-center text-gray-500">
+                  No coupons available.
+                </p>
               )}
             </div>
-            <div className="mt-4">
+
+            <div className="mt-6">
               <button
                 onClick={() => setShowCouponModal(false)}
-                className="w-full py-3 text-white transition bg-purple-600 rounded-lg shadow-md hover:bg-purple-700"
+                className="w-full py-3 text-white transition-all duration-300 transform bg-purple-600 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none active:scale-95"
               >
                 Save Selection
               </button>

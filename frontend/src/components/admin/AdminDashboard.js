@@ -14,8 +14,8 @@ const AdminDashboard = () => {
   return (
     <div className='flex h-screen'>
       {/* Sidebar */}
-      <aside className='bg-purple-800 w-64 text-white p-4 shadow-lg flex-shrink-0'>
-        <h1 className='text-xl font-bold mb-4 text-center text-white'>
+      <aside className='flex-shrink-0 w-64 p-4 text-white bg-purple-800 shadow-lg'>
+        <h1 className='mb-4 text-xl font-bold text-center text-white'>
           Admin Dashboard
         </h1>
         <nav>
@@ -24,7 +24,7 @@ const AdminDashboard = () => {
             <li>
               <Link
                 to='/admin/manage-users'
-                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+                className='flex items-center px-3 py-2 space-x-2 transition-colors rounded-lg hover:bg-purple-700'
               >
                 <span>Manage Users</span>
               </Link>
@@ -32,7 +32,7 @@ const AdminDashboard = () => {
             <li>
               <Link
                 to='/admin/store'
-                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+                className='flex items-center px-3 py-2 space-x-2 transition-colors rounded-lg hover:bg-purple-700'
               >
                 <span>Manage Stores</span>
               </Link>
@@ -40,7 +40,7 @@ const AdminDashboard = () => {
             <li>
               <Link
                 to='/admin/categories'
-                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+                className='flex items-center px-3 py-2 space-x-2 transition-colors rounded-lg hover:bg-purple-700'
               >
                 <span>Manage Categories</span>
               </Link>
@@ -48,7 +48,7 @@ const AdminDashboard = () => {
             <li>
               <Link
                 to='/admin/messages'
-                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+                className='flex items-center px-3 py-2 space-x-2 transition-colors rounded-lg hover:bg-purple-700'
               >
                 <span>Manage Messages</span>
               </Link>
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
             <li>
               <Link
                 to='/admin/coupons'
-                className='flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+                className='flex items-center px-3 py-2 space-x-2 transition-colors rounded-lg hover:bg-purple-700'
               >
                 <span>Manage Coupons</span>
               </Link>
@@ -66,7 +66,7 @@ const AdminDashboard = () => {
       </aside>
 
       {/* Main Content */}
-      <main className='flex-1 bg-purple-100 p-4 overflow-y-auto'>
+      <main className='flex-1 p-4 overflow-y-auto bg-purple-100'>
         <Routes>
           <Route path='/manage-users' element={<ManageUsers />} />
           <Route path='/store' element={<ManageStores />} />
