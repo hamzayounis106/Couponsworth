@@ -7,6 +7,7 @@ import { FiSearch } from "react-icons/fi";
 import { AiOutlinePlus } from "react-icons/ai";
 import useGetStores from "../hooks/useGetStores";
 import useDeleteStore from "../hooks/useDeleteStore";
+import CustomModal from "../Model";
 
 const ManageStores = () => {
   const [stores, setStores] = useState([]);
@@ -16,6 +17,8 @@ const ManageStores = () => {
   const [view, setView] = useState("list");
   const [filterStatus, setFilterStatus] = useState("All");
   const [filterShipping, setFilterShipping] = useState("All");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [storeToDelete, setStoreToDelete] = useState(null);
 
   const { data: allStores, isLoading, isError, error } = useGetStores();
   const deleteStoreMutation = useDeleteStore();
@@ -33,11 +36,16 @@ const ManageStores = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this store?")) {
-      deleteStoreMutation.mutate(id, {
+    setStoreToDelete(id);
+    setIsModalOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (storeToDelete) {
+      deleteStoreMutation.mutate(storeToDelete, {
         onSuccess: () => {
-          setStores((prev) => prev.filter((store) => store._id !== id));
-          setFilteredStores((prev) => prev.filter((store) => store._id !== id));
+          setStores((prev) => prev.filter((store) => store._id !== storeToDelete));
+          setFilteredStores((prev) => prev.filter((store) => store._id !== storeToDelete));
         },
       });
     }
@@ -72,7 +80,11 @@ const ManageStores = () => {
     }
 
     if (shippingStatus !== "All") {
-      filtered = filtered.filter((store) => store.shipping === shippingStatus);
+      filtered = filtered.filter(
+        (store) =>
+          (shippingStatus === "Free Shipping" && store.freeShipping) ||
+          (shippingStatus === "Paid Shipping" && !store.freeShipping)
+      );
     }
 
     setFilteredStores(filtered);
@@ -113,8 +125,8 @@ const ManageStores = () => {
                 className="px-3 py-2 text-sm border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="All">All Shipping</option>
-                <option value="Free">Free Shipping</option>
-                <option value="Paid">Paid Shipping</option>
+                <option value="Free Shipping">Free Shipping</option>
+                <option value="Paid Shipping">Paid Shipping</option>
               </select>
               <Link to="/admin/store/add-store">
                 <button className="flex items-center px-4 py-2 text-sm text-white bg-blue-500 rounded shadow hover:bg-blue-600">
@@ -144,6 +156,14 @@ const ManageStores = () => {
           }}
         />
       )}
+      
+      <CustomModal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDelete}
+        onCancel={() => setIsModalOpen(false)}
+        message="Are you sure you want to delete this store?"
+      />
     </div>
   );
 };

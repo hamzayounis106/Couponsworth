@@ -16,6 +16,7 @@ const CouponPage = () => {
 
         if (response.ok && Array.isArray(data.stores)) {
           setStores(data.stores);
+          console.log(data.stores)
         } else {
           console.error("Failed to fetch stores:", data.message || "Unknown error");
         }
